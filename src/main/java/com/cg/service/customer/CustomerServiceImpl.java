@@ -1,4 +1,4 @@
-package com.cg.service;
+package com.cg.service.customer;
 
 import com.cg.model.Customer;
 import com.cg.repository.CustomerRepository;
@@ -32,6 +32,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Boolean existsByEmail(String email) {
         return customerRepository.existsByEmail(email);
+    }
+
+    @Override
+    public Boolean existsByPhone(String phone) {
+        return customerRepository.existsByPhone(phone);
     }
 
     @Override

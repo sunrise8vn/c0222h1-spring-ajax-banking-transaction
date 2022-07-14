@@ -181,7 +181,42 @@
                 handleEditBtn();
 
                 handleDepositBtn();
-            });
+
+                $("#mdCreate").modal("hide");
+
+                App.SweetAlert.showSuccessAlert('Create customer successful');
+
+            })
+        .fail((jqXHR) => {
+            console.log(jqXHR)
+
+            let str = '';
+
+            if (jqXHR.status === 401) {
+                str += `<label id="message-error" class="error" for="message">ERROR_401</label>`;
+            } else {
+                if (jqXHR.status === 403) {
+                    str += `<label id="message-error" class="error" for="message">ERROR_403</label>`;
+                } else {
+                    if (jqXHR.responseJSON) {
+                        if (jqXHR.responseJSON.message) {
+                            str += `<label id="message-error" class="error" for="message">${jqXHR.responseJSON.message}</label>`;
+                        } else {
+                            $.each(jqXHR.responseJSON, function (key, value) {
+                                str += `<label id="${key}-error" class="error" for="${key}">${value}</label>`;
+                                $("#" + key).addClass("error");
+                            });
+                        }
+                    } else {
+                        str += `<label id="message-error" class="error" for="message">ERROR_500</label>`;
+                    }
+                }
+            }
+
+            $(".modal-alert-danger").html(str).addClass("show").removeClass("hide");
+
+            // App.IziToast.showErrorAlert('Create customer fail');
+        });
 
         $("#frmCreate")[0].reset();
     }
@@ -232,7 +267,7 @@
                         <td>${data.address}</td>
                         <td>${data.balance}</td>
                         <td>
-                            <button class="btn btn-outline-primary edit" data-id="${data.id}">
+                            <button class="btn btn-outline-secondary edit" data-id="${data.id}">
                                 Edit
                             </button>
                         </td>
@@ -241,9 +276,21 @@
                                 Deposit
                             </button>
                         </td>
-                        <td>Withdraw</td>
-                        <td>Transfer</td>
-                        <td>Deactive</td>
+                        <td>
+                            <button class="btn btn-outline-warning withdraw" data-id="${data.id}">
+                                Withdraw
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary transfer" data-id="${data.id}">
+                                Transfer
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-danger deactive" data-id="${data.id}">
+                                Deactive
+                            </button>
+                        </td>
                     </tr>
                 `;
 
@@ -297,7 +344,7 @@
                         <td>${data.address}</td>
                         <td>${data.balance}</td>
                         <td>
-                            <button class="btn btn-outline-primary edit" data-id="${data.id}">
+                            <button class="btn btn-outline-secondary edit" data-id="${data.id}">
                                 Edit
                             </button>
                         </td>
@@ -306,9 +353,21 @@
                                 Deposit
                             </button>
                         </td>
-                        <td>Withdraw</td>
-                        <td>Transfer</td>
-                        <td>Deactive</td>
+                        <td>
+                            <button class="btn btn-outline-warning withdraw" data-id="${data.id}">
+                                Withdraw
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary transfer" data-id="${data.id}">
+                                Transfer
+                            </button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-danger deactive" data-id="${data.id}">
+                                Deactive
+                            </button>
+                        </td>
                     </tr>
                 `;
 
